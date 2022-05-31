@@ -1,9 +1,14 @@
-package com.example.meeting_app;
+package com.example.meeting_app.firebase;
+
+import static com.example.meeting_app.Util.isStorageUrl;
+import static com.example.meeting_app.Util.startToast;
+import static com.example.meeting_app.Util.storageUrlToName;
 
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
 
+import com.example.meeting_app.PostInfo;
 import com.example.meeting_app.listener.OnPostListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,16 +17,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import static com.example.meeting_app.Util.isStorageUrl;
-import static com.example.meeting_app.Util.startToast;
-import static com.example.meeting_app.Util.storageUrlToName;
 
-public class FirebaseUtil {
+public class DeptFirebaseUtil {
     private Activity activity;
     private OnPostListener onPostListener;
     private int successCount;
 
-    public FirebaseUtil(Activity activity) {
+    public DeptFirebaseUtil(Activity activity) {
         this.activity = activity;
     }
 
@@ -39,7 +41,7 @@ public class FirebaseUtil {
             String contents = contentsList.get(i);
             if (isStorageUrl(contents)) {
                 successCount++;
-                StorageReference desertRef = storageRef.child("posts/" + id + "/" + storageUrlToName(contents));
+                StorageReference desertRef = storageRef.child("dept_posts/" + id + "/" + storageUrlToName(contents));
                 desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -60,7 +62,7 @@ public class FirebaseUtil {
     private void storeDelete(final String id, final PostInfo postInfo) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         if (successCount == 0) {
-            firebaseFirestore.collection("posts").document(id)
+            firebaseFirestore.collection("dept_posts").document(id)
                     .delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override

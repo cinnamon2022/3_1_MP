@@ -34,7 +34,7 @@ public class DeptActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_dept);
         setToolbarTitle(getResources().getString(R.string.app_name));
 
         init();
@@ -94,9 +94,9 @@ public class DeptActivity extends BasicActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.home:
-                            HomeFragment homeFragment = new HomeFragment();
+                            DeptFragment deptFragment = new DeptFragment();
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, homeFragment)
+                                    .replace(R.id.container, deptFragment)
                                     .commit();
                             return true;
                         case R.id.myInfo:

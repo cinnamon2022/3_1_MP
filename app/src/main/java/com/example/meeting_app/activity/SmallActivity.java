@@ -34,7 +34,7 @@ public class SmallActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_small);
         setToolbarTitle(getResources().getString(R.string.app_name));
 
         init();
@@ -94,9 +94,9 @@ public class SmallActivity extends BasicActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.home:
-                            HomeFragment homeFragment = new HomeFragment();
+                            SmallFragment smallFragment = new SmallFragment();
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, homeFragment)
+                                    .replace(R.id.container, smallFragment)
                                     .commit();
                             return true;
                         case R.id.myInfo:

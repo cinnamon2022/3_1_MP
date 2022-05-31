@@ -16,8 +16,8 @@ import android.view.ViewGroup;
 
 import com.example.meeting_app.PostInfo;
 import com.example.meeting_app.R;
-import com.example.meeting_app.activity.addPostActivity;
-import com.example.meeting_app.adpat.HomeAdapt;
+import com.example.meeting_app.activity.addDeptPostActivity;
+import com.example.meeting_app.adpat.DeptAdapt;
 import com.example.meeting_app.listener.OnPostListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,9 +33,9 @@ import java.util.Date;
 
 public class DeptFragment extends Fragment {
 
-    private static final String TAG = "SmallFragment";
+    private static final String TAG = "DeptFragment";
     private FirebaseFirestore firebaseFirestore;
-    private HomeAdapt homeAdapt;
+    private DeptAdapt deptAdapt;
     private ArrayList<PostInfo> postList;
     private boolean updating;
     private boolean topScrolled;
@@ -57,15 +57,15 @@ public class DeptFragment extends Fragment {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
         postList = new ArrayList<>();
-        homeAdapt = new HomeAdapt(getActivity(), postList);
-        homeAdapt.setOnPostListener(onPostListener);
+        deptAdapt = new DeptAdapt(getActivity(), postList);
+        deptAdapt.setOnPostListener(onPostListener);
 
         final RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         view.findViewById(R.id.floatingActionButton).setOnClickListener(onClickListener);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(homeAdapt);
+        recyclerView.setAdapter(deptAdapt);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -134,7 +134,7 @@ public class DeptFragment extends Fragment {
                     break;
                 */
                 case R.id.floatingActionButton:
-                    startMyActivity(addPostActivity.class);
+                    startMyActivity(addDeptPostActivity.class);
                     break;
             }
         }
@@ -144,7 +144,7 @@ public class DeptFragment extends Fragment {
         @Override
         public void onDelete(PostInfo postInfo) {
             postList.remove(postInfo);
-            homeAdapt.notifyDataSetChanged();
+            deptAdapt.notifyDataSetChanged();
 
             Log.e("로그: ","삭제 성공");
         }
@@ -156,9 +156,10 @@ public class DeptFragment extends Fragment {
     };
 
     private void postsUpdate(final boolean clear) {
+
         updating = true;
         Date date = postList.size() == 0 || clear ? new Date() : postList.get(postList.size() - 1).getCreatedAt();
-        CollectionReference collectionReference = firebaseFirestore.collection("posts");
+        CollectionReference collectionReference = firebaseFirestore.collection("dept_posts");
         collectionReference.orderBy("createdAt", Query.Direction.DESCENDING).whereLessThan("createdAt", date).limit(10).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -177,7 +178,7 @@ public class DeptFragment extends Fragment {
                                         new Date(document.getDate("createdAt").getTime()),
                                         document.getId()));
                             }
-                            homeAdapt.notifyDataSetChanged();
+                            deptAdapt.notifyDataSetChanged();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.example.meeting_app.FirebaseUtil;
+import com.example.meeting_app.firebase.FirebaseUtil;
 import com.example.meeting_app.PostInfo;
 import com.example.meeting_app.R;
 import com.example.meeting_app.listener.OnPostListener;

@@ -18,17 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.meeting_app.PostInfo;
 import com.example.meeting_app.R;
 import com.example.meeting_app.activity.PostActivity;
+import com.example.meeting_app.activity.addDeptPostActivity;
 import com.example.meeting_app.activity.addPostActivity;
-import com.example.meeting_app.firebase.FirebaseUtil;
+import com.example.meeting_app.firebase.DeptFirebaseUtil;
 import com.example.meeting_app.listener.OnPostListener;
 import com.example.meeting_app.view.ReadContentsView;
 
 import java.util.ArrayList;
 
-public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
+public class DeptAdapt extends RecyclerView.Adapter<DeptAdapt.MainViewHolder>{
+
     private ArrayList<PostInfo> mDataset;
     private Activity activity;
-    private FirebaseUtil firebaseUtil;
+    private DeptFirebaseUtil deptFirebaseUtil;
     private final int MORE_INDEX = 2;
 
     static class MainViewHolder extends RecyclerView.ViewHolder {
@@ -39,15 +41,15 @@ public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
         }
     }
 
-    public HomeAdapt(Activity activity, ArrayList<PostInfo> myDataset) {
+    public DeptAdapt(Activity activity, ArrayList<PostInfo> myDataset) {
         this.mDataset = myDataset;
         this.activity = activity;
 
-        firebaseUtil = new FirebaseUtil(activity);
+        deptFirebaseUtil = new DeptFirebaseUtil(activity);
     }
 
     public void setOnPostListener(OnPostListener onPostListener){
-        firebaseUtil.setOnPostListener(onPostListener);
+        deptFirebaseUtil.setOnPostListener(onPostListener);
     }
 
     @Override
@@ -57,9 +59,9 @@ public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
 
     @NonNull
     @Override
-    public HomeAdapt.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeptAdapt.MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardView = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
-        final MainViewHolder mainViewHolder = new MainViewHolder(cardView);
+        final DeptAdapt.MainViewHolder mainViewHolder = new DeptAdapt.MainViewHolder(cardView);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +82,7 @@ public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MainViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DeptAdapt.MainViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         TextView titleTextView = cardView.findViewById(R.id.titleTextView);
 
@@ -112,10 +114,10 @@ public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.modify:
-                        myStartActivity(addPostActivity.class, mDataset.get(position));
+                        myStartActivity(addDeptPostActivity.class, mDataset.get(position));
                         return true;
                     case R.id.delete:
-                        firebaseUtil.storageDelete(mDataset.get(position));
+                        deptFirebaseUtil.storageDelete(mDataset.get(position));
                         return true;
                     default:
                         return false;
@@ -133,5 +135,4 @@ public class HomeAdapt extends RecyclerView.Adapter<HomeAdapt.MainViewHolder> {
         intent.putExtra("postInfo", postInfo);
         activity.startActivity(intent);
     }
-
 }
