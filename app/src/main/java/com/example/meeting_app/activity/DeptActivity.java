@@ -63,7 +63,7 @@ public class DeptActivity extends BasicActivity {
         if (firebaseUser == null) {
             startMyActivity(SignupActivity.class);
         } else {
-            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("dept").document(firebaseUser.getUid());
+            DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(firebaseUser.getUid());
             documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
