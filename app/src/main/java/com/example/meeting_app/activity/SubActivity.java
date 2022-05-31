@@ -16,12 +16,28 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        ImageButton imageButton = (ImageButton) findViewById(R.id.club);
-        imageButton.setOnClickListener(new View.OnClickListener(){
+        ImageButton imageButton1 = (ImageButton) findViewById(R.id.club);
+        ImageButton imageButton2 = (ImageButton) findViewById(R.id.small_gathering);
+        ImageButton imageButton3 = (ImageButton) findViewById(R.id.dept_meeting);
 
+        imageButton1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        imageButton2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), SmallActivity.class);
+                startActivity(intent);
+            }
+        });
+        imageButton3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getApplicationContext(), DeptActivity.class);
                 startActivity(intent);
             }
         });
